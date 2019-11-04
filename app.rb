@@ -6,10 +6,15 @@ class BookmarkManager < Sinatra::Base
         'Hello world'
     end
 
-    get '/bookmarks' do
-        @bookmarks = Bookmarks.all
-        p @bookmarks
-        erb :'bookmarks/index'
+    get '/bookmarks/new' do
+        erb :"/bookmarks/new"
+    end
+
+    post '/bookmarks' do
+        url = params['url']
+        connection = PG.connect(dbname: 'test')
+        connection.exec("INSERT INTO bookmarks (url) VALUES('#{url}')")
+        redirect '/bookmark/new'
     end
 
     run! if app_file == $0
