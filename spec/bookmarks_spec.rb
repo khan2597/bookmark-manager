@@ -29,4 +29,12 @@ describe Bookmarks do
             expect(bookmark.url).to eq persisted_data.first['url']
         end
     end
+
+    describe '.delete' do
+        it 'deletes the bookmark' do
+            bookmark = Bookmarks.create(title: 'Google', url: 'www.google.co.uk')
+            Bookmarks.delete(id: bookmark.id)
+            expect(Bookmarks.all.length).to eq 0
+        end
+    end
 end
